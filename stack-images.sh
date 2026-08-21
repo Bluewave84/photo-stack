@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-INPUT_DIR="/bilder/input"
-OUTPUT_DIR="/bilder/output"
+INPUT_DIR="/photos/input"
+OUTPUT_DIR="/photos/output"
 TMP_DIR="/tmp/image-stack"
 OUTPUT_FILE="${OUTPUT_DIR}/result.tif"
 

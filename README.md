@@ -5,7 +5,7 @@ A lightweight self-hosted Docker service for aligning and combining image sequen
 ## Overview
 
 ```
-images in /bilder/input
+images in /photos/input
         ↓
 align_image_stack
         ↓
@@ -13,16 +13,16 @@ aligned TIFF files
         ↓
 enfuse
         ↓
-/bilder/output/result.tif
+/photos/output/result.tif
 ```
 
 ## Modes
 
-| Mode       | Description                                              |
-|------------|----------------------------------------------------------|
-| `exposure` | Exposure-bracketed images; optimises field of view       |
-| `handheld` | Handheld shots; focus/contrast fusion with alignment     |
-| `fixed`    | Fixed-camera shots; minimal alignment, contrast fusion   |
+| Mode       | Description                                            |
+| ---------- | ------------------------------------------------------ |
+| `exposure` | Exposure-bracketed images; optimises field of view     |
+| `handheld` | Handheld shots; focus/contrast fusion with alignment   |
+| `fixed`    | Fixed-camera shots; minimal alignment, contrast fusion |
 
 The mode must be supplied as the first argument to the container.
 
@@ -36,7 +36,7 @@ docker compose build
 
 ### Run
 
-Place your input images (JPEG or TIFF) in `./bilder/input/`, then run:
+Place your input images (JPEG or TIFF) in `./photos/input/`, then run:
 
 ```bash
 docker compose run --rm image-stack exposure
@@ -44,7 +44,7 @@ docker compose run --rm image-stack handheld
 docker compose run --rm image-stack fixed
 ```
 
-The result is written to `./bilder/output/result.tif`.
+The result is written to `./photos/output/result.tif`.
 
 ## Directory layout
 
@@ -59,10 +59,10 @@ The result is written to `./bilder/output/result.tif`.
 
 Host directories are mounted at runtime:
 
-| Host path        | Container path   | Purpose          |
-|------------------|------------------|------------------|
-| `./bilder/input` | `/bilder/input`  | Input images     |
-| `./bilder/output`| `/bilder/output` | Output result    |
+| Host path         | Container path   | Purpose       |
+| ----------------- | ---------------- | ------------- |
+| `./photos/input`  | `/photos/input`  | Input images  |
+| `./photos/output` | `/photos/output` | Output result |
 
 Temporary alignment files are written to `/tmp/image-stack` inside the container and are not persisted.
 

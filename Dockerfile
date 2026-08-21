@@ -5,7 +5,7 @@ RUN apt-get update && apt-get install -y \
     enfuse \
     hugin-tools \
     && rm -rf /var/lib/apt/lists/*
-WORKDIR /bilder
+WORKDIR /photos
 COPY stack-images.sh /usr/local/bin/stack-images
 RUN sed -i 's/\r$//' /usr/local/bin/stack-images \
     && chmod +x /usr/local/bin/stack-images
