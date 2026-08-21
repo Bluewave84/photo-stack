@@ -10,15 +10,15 @@ MODE="${1:-}"
 
 if [[ -z "$MODE" ]]; then
     echo "Usage: stack-images <mode>"
-    echo "  Modes: exposure | handheld | fixed"
+    echo "  Modes: exposure | handheld | fixed | night"
     exit 1
 fi
 
 case "$MODE" in
-    exposure|handheld|fixed)
+    exposure|handheld|fixed|night)
         ;;
     *)
-        echo "Error: Unknown mode '${MODE}'. Valid modes are: exposure, handheld, fixed"
+        echo "Error: Unknown mode '${MODE}'. Valid modes are: exposure, handheld, fixed, night"
         exit 1
         ;;
 esac
@@ -40,19 +40,24 @@ mkdir -p "$TMP_DIR" "$OUTPUT_DIR"
 # Build align_image_stack options based on mode
 case "$MODE" in
     exposure)
-        # Exposure bracketing: optimise field of view and radial distortion
+        # Exposure bracketing: maximise dynamic range, suppress halos
         ALIGN_OPTS=(-a "${TMP_DIR}/aligned_" -m -x -c 30 -C)
-        ENFUSE_OPTS=(--exposure-weight=1 --saturation-weight=0.2 --contrast-weight=0)
+        ENFUSE_OPTS=(--exposure-weight=1.0 --saturation-weight=0.2 --contrast-weight=0.0 --hard-mask --depth=16)
         ;;
     handheld)
-        # Handheld shots: also correct for translation and rotation
+        # Handheld focus-stacking: select sharpest pixels, hard boundaries essential
         ALIGN_OPTS=(-a "${TMP_DIR}/aligned_" -m -x -c 30 -C)
-        ENFUSE_OPTS=(--exposure-weight=0 --saturation-weight=0.2 --contrast-weight=1)
+        ENFUSE_OPTS=(--exposure-weight=0.0 --saturation-weight=0.0 --contrast-weight=1.0 --contrast-window-size=5 --hard-mask --depth=16)
         ;;
     fixed)
-        # Fixed camera: minimal alignment, no field-of-view correction
+        # Fixed-camera focus-stacking: minimal alignment, hard boundaries essential
         ALIGN_OPTS=(-a "${TMP_DIR}/aligned_" -c 10)
-        ENFUSE_OPTS=(--exposure-weight=0 --saturation-weight=0.2 --contrast-weight=1)
+        ENFUSE_OPTS=(--exposure-weight=0.0 --saturation-weight=0.0 --contrast-weight=1.0 --contrast-window-size=5 --hard-mask --depth=16)
+        ;;
+    night)
+        # Night / architecture: balance exposure and contrast for high-dynamic scenes
+        ALIGN_OPTS=(-a "${TMP_DIR}/aligned_" -m -x -c 30 -C)
+        ENFUSE_OPTS=(--exposure-weight=1.0 --saturation-weight=0.5 --contrast-weight=0.5 --depth=16)
         ;;
 esac
 
