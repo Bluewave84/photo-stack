@@ -34,6 +34,7 @@ fi
 echo "Mode: ${MODE}"
 echo "Found ${#IMAGES[@]} input image(s)."
 
+rm -rf "$TMP_DIR"
 mkdir -p "$TMP_DIR" "$OUTPUT_DIR"
 
 # Build align_image_stack options based on mode
