@@ -21,7 +21,7 @@ enfuse
 | Mode       | Description                                            |
 | ---------- | ------------------------------------------------------ |
 | `exposure` | Exposure-bracketed images; optimises field of view     |
-| `handheld` | Handheld shots; focus/contrast fusion with alignment   |
+| `handheld` | Handheld shots; contrast fusion with alignment         |
 | `fixed`    | Fixed-camera shots; minimal alignment, contrast fusion |
 
 The mode must be supplied as the first argument to the container.
