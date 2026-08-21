@@ -2,5 +2,9 @@ services:
   image-stack:
     build: .
     volumes:
-      - ./photos/input:/photos/input
-      - ./photos/output:/photos/output
+      - photos-input:/photos/input
+      - photos-output:/photos/output
+
+volumes:
+  photos-input:
+  photos-output:
