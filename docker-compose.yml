@@ -1,0 +1,6 @@
+services:
+  image-stack:
+    build: .
+    volumes:
+      - ./photos/input:/photos/input
+      - ./photos/output:/photos/output
